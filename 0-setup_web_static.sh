@@ -38,5 +38,8 @@ server {
 	}
 }"
 echo "$server" | sudo tee -a /etc/nginx/sites-available/default
+
+sudo sed -i "/# pass PHP scripts to FastCGI server/i\ \n\tlocation /hbnb_static/ {\n\t\talias /data/web_static/curret/;\n\t\ttry_files "$uri" "$uri/" = 404;\n\t}" /etc/nginx/sites-available/default
+
 service nginx restart
 
