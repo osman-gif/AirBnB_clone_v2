@@ -1,7 +1,8 @@
-#!/usr/bin/python3  
+#!/usr/bin/python3
 from fabric.api import local
 import os
 from datetime import datetime
+
 
 def do_pack():
     """Fabric script that generates a .tgz archive from the contents
@@ -18,4 +19,3 @@ def do_pack():
         return None
     else:
         return archive
-
