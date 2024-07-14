@@ -15,15 +15,15 @@ def do_deploy(archive_path):
     archive_path_server = "/tmp/{}".format(str(archive_path).split('/')[-1])
     filename = str(archive_path).split("/")[-1].split(".")[0]
     if run("sudo mkdir -p /data/web_static/releases/{}".format(filename)):
-        return False
+        pass
     if run(f"tar -xvf {archive_path_server} -C /tmp/"):
-        return False
+        pass
     elif not run("rm -r {}".format(archive_path_server)):
-        return False
+        pass
     elif not run("rm /data/web_static/current"):
-        return False
+        pass
     elif not run("ln -s /data/web_static/releases/{} \
                  /data/web_static/current".format(filename)):
-        return False
+        pass
     else:
         True
