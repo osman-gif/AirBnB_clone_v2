@@ -11,19 +11,16 @@ def do_deploy(archive_path):
 
     if not os.path.exists(archive_path):
         return False
-    put("{}".format(archive_path), "/tmp/")
-    archive_path_server = "/tmp/{}".format(str(archive_path).split('/')[-1])
+    # Upload the archive to the /tmp/ directory of the web server
+    put(f"{archive_path}", "/tmp/")
+
+    remote_archive_path = "/tmp/{}".format(str(archive_path).split('/')[-1])
     filename = str(archive_path).split("/")[-1].split(".")[0]
-    if run("sudo mkdir -p /data/web_static/releases/{}".format(filename)):
-        pass
-    if run(f"tar -xvf {archive_path_server} -C /tmp/"):
-        pass
-    elif not run("rm -r {}".format(archive_path_server)):
-        pass
-    elif not run("rm /data/web_static/current"):
-        pass
-    elif not run("ln -s /data/web_static/releases/{} \
-                 /data/web_static/current".format(filename)):
-        pass
-    else:
-        True
+    uncompress_to = f"/data/web_static/releases/{filename}"
+
+    run(f"sudo mkdir -p {uncompress_to}")
+    run(f"tar -xvf {remote_archive_path} -C {uncompress_to}")
+    run(f"rm -r {remote_archive_path}")
+    run("rm /data/web_static/current")
+    run(f"ln -s /data/web_static/releases/{filename} \
+                    /data/web_static/current")
