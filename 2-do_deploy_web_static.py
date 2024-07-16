@@ -19,8 +19,12 @@ def do_deploy(archive_path):
     uncompress_to = f"/data/web_static/releases/{filename}"
 
     run(f"sudo mkdir -p {uncompress_to}")
-    run(f"tar -xvf {remote_archive_path} -C {uncompress_to}")
-    run(f"rm -r {remote_archive_path}")
-    run("rm /data/web_static/current")
-    run(f"ln -s /data/web_static/releases/{filename} \
+    run(f"sudo tar -xvf {remote_archive_path} -C {uncompress_to}")
+    # run(f"sudo mv -f {uncompress_to}/web_static/* {uncompress_to}")
+    run(f"sudo cp -r {uncompress_to}/web_static/* {uncompress_to}")
+    run(f"sudo rm -r {uncompress_to}/web_static/*")
+    run(f"sudo rm -r {uncompress_to}/web_static")
+    run(f"sudo rm -r {remote_archive_path}")
+    run("sudo rm /data/web_static/current")
+    run(f"sudo ln -s /data/web_static/releases/{filename} \
                     /data/web_static/current")
